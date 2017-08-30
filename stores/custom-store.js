@@ -20,12 +20,12 @@ module.exports = function (config) {
    * e.g:
    *
    * config: {
-   *   get: req => req.cookies.grant,
-   *   store: rawGrant => (req, res) => res.cookie('grant',rawGrant, {
-   *      maxAge: 900000,
-   *      httpOnly: true
+   *   get: req => req => req.signedCookies.grant,
+   *   store: rawGrant => (req, res) => res.cookie('grant', rawGrant, {
+   *      httpOnly: true,
+   *      signed: true
    *   }),
-   *   unstore: req => req.session.grant = ''
+   *   unstore: (req, res) => res.clearCookie('grant')
    * }
    */
   return {
