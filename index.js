@@ -17,6 +17,7 @@
 var BearerStore = require('./stores/bearer-store');
 var CookieStore = require('./stores/cookie-store');
 var SessionStore = require('./stores/session-store');
+var CustomStore = require('./stores/custom-store');
 
 var Config = require('keycloak-auth-utils').Config;
 var GrantManager = require('keycloak-auth-utils').GrantManager;
@@ -79,6 +80,8 @@ function Keycloak (config, keycloakConfig) {
     this.stores.push(new SessionStore(config.store));
   } else if (config && config.cookies) {
     this.stores.push(CookieStore);
+  } else if (config && config.custom) {
+    this.stores.push(CustomStore(config.custom));
   }
 }
 
