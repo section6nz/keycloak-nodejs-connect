@@ -292,6 +292,11 @@ Keycloak.prototype.unstoreGrant = function (sessionId) {
     return;
   }
 
+  if (!this.stores[1].clear) {
+    // does not impliment clear, i.e., custom
+    return;
+  }
+
   this.stores[1].clear(sessionId);
 };
 
