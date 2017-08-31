@@ -30,7 +30,9 @@ module.exports = function (config) {
    */
   return {
     get: (request) => {
+      console.log('custom-store get: (request) =>');
       const value = config.get(request);
+      console.log('custom-store get: value', value);
       if (!value) return;
       return JSON.parse(value);
     },
