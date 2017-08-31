@@ -28,6 +28,7 @@ Admin.prototype.getFunction = function () {
 };
 
 function adminLogout (request, response, keycloak) {
+  console.log('adminLogout (request, response, keycloak)');
   let data = '';
 
   request.on('data', d => {
@@ -38,6 +39,7 @@ function adminLogout (request, response, keycloak) {
     let parts = data.split('.');
     let payload = JSON.parse(new Buffer(parts[1], 'base64').toString());
     if (payload.action === 'LOGOUT') {
+      console.log('payload.action === LOGOUT');
       let sessionIDs = payload.adapterSessionIds;
       if (!sessionIDs) {
         keycloak.grantManager.notBefore = payload.notBefore;

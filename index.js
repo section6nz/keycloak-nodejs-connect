@@ -17,6 +17,7 @@
 var BearerStore = require('./stores/bearer-store');
 var CookieStore = require('./stores/cookie-store');
 var SessionStore = require('./stores/session-store');
+var CustomStore = require('./stores/custom-store');
 
 var Config = require('keycloak-auth-utils').Config;
 var GrantManager = require('keycloak-auth-utils').GrantManager;
@@ -75,10 +76,14 @@ function Keycloak (config, keycloakConfig) {
     throw new Error('Either `store` or `cookies` may be set, but not both');
   }
 
+  console.log('Keycloak Object.keys(config)', Object.keys(config));
+
   if (config && config.store) {
     this.stores.push(new SessionStore(config.store));
   } else if (config && config.cookies) {
     this.stores.push(CookieStore);
+  } else if (config && config.custom) {
+    this.stores.push(CustomStore(config.custom));
   }
 }
 
@@ -284,6 +289,11 @@ Keycloak.prototype.storeGrant = function (grant, request, response) {
 Keycloak.prototype.unstoreGrant = function (sessionId) {
   if (this.stores.length < 2) {
     // cannot unstore, bearer-only, this is weird
+    return;
+  }
+
+  if (!this.stores[1].clear) {
+    // does not impliment clear, i.e., custom
     return;
   }
 

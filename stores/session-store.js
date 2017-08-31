@@ -25,6 +25,7 @@ SessionStore.prototype.get = (request) => request.session[SessionStore.TOKEN_KEY
 
 SessionStore.prototype.clear = function (sessionId) {
   let self = this;
+  console.log('this.store', this.store);
   this.store.get(sessionId, (err, session) => {
     if (err) {
       console.log(err);
